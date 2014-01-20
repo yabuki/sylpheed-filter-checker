@@ -14,6 +14,10 @@ moveDestinationsHash = Hash.new(0)
 # main
 #
 if __FILE__ == $0
+  minimalCount = argv[0]
+  if minialCount < 1 then
+    minimalCount = 2
+  end
   begin
     doc = Document.new(open(XMLFILE))
   rescue => ex
@@ -37,7 +41,7 @@ if __FILE__ == $0
     end
   end
   moveDestinationsHash.each do | key, item |
-    if item.size > 2 then
+    if item.size > minimalCount then
       puts "#{key} へ移動するルールは、#{item} の #{item.size} 個です。"
     end
   end
