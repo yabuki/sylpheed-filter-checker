@@ -14,8 +14,11 @@ moveDestinationsHash = Hash.new(0)
 # main
 #
 if __FILE__ == $0
-  minimalCount = argv[0]
-  if minialCount < 1 then
+  minimalCount = (ARGV[0]).to_i
+  if minimalCount == 'nil' then
+    minimalCount = 2
+  end
+  if minimalCount < 2 then
     minimalCount = 2
   end
   begin
@@ -41,7 +44,7 @@ if __FILE__ == $0
     end
   end
   moveDestinationsHash.each do | key, item |
-    if item.size > minimalCount then
+    if item.size >= minimalCount then
       puts "#{key} へ移動するルールは、#{item} の #{item.size} 個です。"
     end
   end
