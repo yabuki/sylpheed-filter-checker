@@ -28,7 +28,7 @@ if __FILE__ == $0
   end
   XPath.each(doc,"/filter/rule") do |element|
     subdoc = Document.new(element.to_s) # //action-list/move を要素毎に検索するあため
-    if element.attributes["enabled"] then
+    if element.attributes["enabled"] == "true" then
       moveDestination = XPath.first(subdoc, "//action-list/move/text()")
       val = moveDestinationsHash.key?("#{moveDestination}")
       if val then
