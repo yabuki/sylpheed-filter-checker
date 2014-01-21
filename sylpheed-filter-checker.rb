@@ -15,9 +15,6 @@ moveDestinationsHash = Hash.new(0)
 #
 if __FILE__ == $0
   minimalCount = (ARGV[0]).to_i
-  if minimalCount == 'nil' then
-    minimalCount = 2
-  end
   if minimalCount < 2 then
     minimalCount = 2
   end
