@@ -6,8 +6,12 @@ sylpheed の振り分けルールで同じ場所に
 
 ## 使い方
 
-プログラムの XMLFILE にあなたの sylpheed が参照している filter.xml へのフルパスを
-記入します。
+環境変数 HOME を参照して、.sylpheed-2.0/filter.xml のファイルを読み取ります。
+unixっぽい環境なら、なんもしなくてもいいはずです。
+
+が、何らかの理由で filter.xml を設定する必要があるなら、プログラム中
+の XMLFILE にあなたの sylpheed が参照している filter.xml へのフルパス
+を記入するといいのではないでしょうか。
 
 ruby sylpheed-filter-checker.rb 数字
 
