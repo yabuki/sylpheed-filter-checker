@@ -9,8 +9,30 @@ include REXML
 
 XMLFILE="#{ENV['HOME']}/.sylpheed-2.0/filter.xml"
 
-moveDestinationsHash = Hash.new(0)
-
+class Filter_XML
+  def initialize(path = XMLFILE)
+    begin
+      @doc = Document.new(open(XMLFILE))
+    rescue => ex
+    ensure
+    end
+  end
+  def each
+    XPath.each(@doc, "/filter/rule") do | element |
+      yield element
+    end
+  end
+  def rule_enabled?( element )
+    return element.attributes["enabled"] == "true" ? true : false
+  end
+  def looking_for_move_action(element)
+    subdoc = Document.new(element.to_s) # //action-list/move を要素毎に検索するため
+    return XPath.first(subdoc, "//action-list/move/text()")
+  end
+end
+#
+#
+#
 class Hash_Contains_Array
   def initialize
     @h = Hash.new(0)
@@ -31,32 +53,30 @@ class Hash_Contains_Array
     end
   end
 end
+# いくつ、同じ行き先を持つ要素を表示するかを
+# 決定する
+#
+def get_minimal_count
+  minimal_count = (ARGV[0]).to_i
+  return minimal_count < 2 ? 2 : minimal_count
+end
 
 #
 # main
 #
-
-move_destinations = Hash_Contains_Array.new
-
 if __FILE__ == $0
-  minimalCount = (ARGV[0]).to_i
-  if minimalCount < 2 then
-    minimalCount = 2
-  end
-  begin
-    doc = Document.new(open(XMLFILE))
-  rescue => ex
-  ensure
-  end
-  XPath.each(doc,"/filter/rule") do |element|
-    subdoc = Document.new(element.to_s) # //action-list/move を要素毎に検索するため
-    if element.attributes["enabled"] == "true" then
-      moveDestination = XPath.first(subdoc, "//action-list/move/text()")
+  move_destinations = Hash_Contains_Array.new
+
+  filter_xml = Filter_XML.new()
+  filter_xml.each do | element |
+    if filter_xml.rule_enabled?(element) then
+      moveDestination = filter_xml.looking_for_move_action(element)
       move_destinations.push(moveDestination, element.attributes["name"])
     end
   end
+  minimal_count = get_minimal_count()
   move_destinations.each do | key, item |
-    if item.size >= minimalCount then
+    if item.size >= minimal_count then
       puts "#{key} へ移動するルールは、#{item} の #{item.size} 個です。"
     end
   end
