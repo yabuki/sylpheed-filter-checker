@@ -10,6 +10,7 @@ include REXML
 XMLFILE="#{ENV['HOME']}/.sylpheed-2.0/filter.xml"
 
 class Filter_XML
+  attr_reader :doc
   def initialize(path = XMLFILE)
     begin
       @doc = Document.new(open(XMLFILE))
