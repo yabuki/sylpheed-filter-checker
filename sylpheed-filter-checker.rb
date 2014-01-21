@@ -7,8 +7,7 @@
 require 'rexml/document'
 include REXML
 
-XMLFILE="/home/yabuki/.sylpheed-2.0/filter.xml"
-
+XMLFILE="#{ENV['HOME']}/.sylpheed-2.0/filter.xml"
 
 moveDestinationsHash = Hash.new(0)
 
