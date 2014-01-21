@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-# This software is Apache License 2.0. please see COPYING.
-# Author YABUKI Yukiharu
+# This software is distributed under Apache License 2.0.
+# please see COPYING.
+# Author: YABUKI Yukiharu
+# Date: 2014/01/20
 
 require 'rexml/document'
 include REXML
