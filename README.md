@@ -16,3 +16,11 @@ unixっぽい環境なら、なんもしなくてもいいはずです。
 ruby sylpheed-filter-checker.rb 数字
 
 与える数字は、重複している移動先の数です。
+
+## test
+
+minitest を使っています。
+
+### test の実行方法
+
+rake test
