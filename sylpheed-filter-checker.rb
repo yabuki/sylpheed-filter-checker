@@ -14,7 +14,7 @@ class Filter_XML
   attr_reader :doc
   def initialize(path = XMLFILE)
     begin
-      @doc = Document.new(open(XMLFILE))
+      @doc = Document.new(open(path))
     rescue => ex
     ensure
     end
