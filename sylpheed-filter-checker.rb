@@ -11,9 +11,33 @@ XMLFILE="#{ENV['HOME']}/.sylpheed-2.0/filter.xml"
 
 moveDestinationsHash = Hash.new(0)
 
+class Hash_Contains_Array
+  def initialize
+    @h = Hash.new(0)
+  end
+  def push(key, value)
+    if @h.key?("#{key}") then
+      # 2回目以降
+      item = @h["#{key}"]
+    else
+      # 1回目
+      item = Array.new
+    end
+    @h["#{key}"] = item.push(value)
+  end
+  def each
+    @h.each do | key, item |
+      yield key, item
+    end
+  end
+end
+
 #
 # main
 #
+
+move_destinations = Hash_Contains_Array.new
+
 if __FILE__ == $0
   minimalCount = (ARGV[0]).to_i
   if minimalCount < 2 then
@@ -28,20 +52,10 @@ if __FILE__ == $0
     subdoc = Document.new(element.to_s) # //action-list/move を要素毎に検索するため
     if element.attributes["enabled"] == "true" then
       moveDestination = XPath.first(subdoc, "//action-list/move/text()")
-      val = moveDestinationsHash.key?("#{moveDestination}")
-      if val then
-        # 2回目以降
-        item = moveDestinationsHash["#{moveDestination}"]
-        item.push(element.attributes["name"])
-        moveDestinationsHash["#{moveDestination}"] = item
-      else
-        # 1回目
-        item = Array.new
-        moveDestinationsHash["#{moveDestination}"] = item.push(element.attributes["name"])
-      end
+      move_destinations.push(moveDestination, element.attributes["name"])
     end
   end
-  moveDestinationsHash.each do | key, item |
+  move_destinations.each do | key, item |
     if item.size >= minimalCount then
       puts "#{key} へ移動するルールは、#{item} の #{item.size} 個です。"
     end
