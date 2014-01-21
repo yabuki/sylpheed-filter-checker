@@ -35,13 +35,8 @@ end
 #
 #
 class Test_Filter_XML < MiniTest::Unit::TestCase
-#
-# 下記のテストは、doc に
-# 定数 REXML::Element::UNDEFINEDの値が入るみたいなんだけど
-# うまくとれない。assert_equal も試してはみたのだが...
-#  def test_not_exist_XML_file
-#    filter_xml = Filter_XML.new("notExistFile.xml")
-#    str = '<UNDEFINED> ... </>'
-#    assert_match str, filter_xml.doc
-#  end
+  def test_not_exist_XML_file
+    filter_xml = Filter_XML.new("notExistFile.xml")
+    assert filter_xml.doc.nil?
+  end
 end
