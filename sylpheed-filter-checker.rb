@@ -6,6 +6,7 @@
 
 require 'rexml/document'
 include REXML
+require 'pp'
 
 XMLFILE="#{ENV['HOME']}/.sylpheed-2.0/filter.xml"
 
