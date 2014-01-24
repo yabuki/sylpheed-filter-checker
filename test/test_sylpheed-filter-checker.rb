@@ -40,3 +40,46 @@ class Test_Filter_XML < MiniTest::Unit::TestCase
     assert filter_xml.doc.nil?
   end
 end
+
+#
+#
+#
+class Test_Hash_contains_Array < MiniTest::Unit::TestCase
+  def test_key_empty
+    a = Hash_Contains_Array.new()
+    a.each do |key, item|
+      assert_equal key, nil
+    end
+  end
+  def test_value_empty
+    a = Hash_Contains_Array.new()
+    a.each do |key, item|
+      assert_equal item, nil
+    end
+  end
+  def test_an_item
+    a = Hash_Contains_Array.new()
+    s = "moge"
+    a.push(:hoge, s)
+    a.each do | key, item |
+      assert_equal item, ["moge"]
+    end
+  end
+  def test_2_items
+    a = Hash_Contains_Array.new()
+    a.push(:hoge, "foo")
+    a.push(:hoge, "bar")
+    a.each do | key, item |
+      assert_equal item, %w(foo bar)
+    end
+  end
+  def test_3_items
+    a = Hash_Contains_Array.new()
+    a.push(:hoge, "foo")
+    a.push(:hoge, "bar")
+    a.push(:hoge, "buz")
+    a.each do | key, item |
+      assert_equal item, %w(foo bar buz)
+    end
+  end
+end
